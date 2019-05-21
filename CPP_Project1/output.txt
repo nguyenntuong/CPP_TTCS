@@ -1,0 +1,5 @@
+Ho va Ten,Chuc vu,Ngay thang nam sinh,He so luong,
+Nguyen van A,Thu ky,11/7/1980,2.500000,
+Nguyen van 0,ky thuat,9/8/1985,1.500000,
+Nguyen van B,Giam doc,10/2/1990,3.500000,
+Nguyen van C,Nhan vien,21/10/2000,4.500000,
