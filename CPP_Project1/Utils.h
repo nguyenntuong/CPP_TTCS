@@ -14,6 +14,7 @@ public:
 	static void pushToListWithCondition(ListControl<NhanVien>*, PointerWraper<NhanVien>* item);
 private:
 	static void Sort_by_HoVaTen(ListControl<NhanVien>*);
+	static void Sort_by_ChucVu(ListControl<NhanVien>* lc);
 	static void Sort_by_HSL(ListControl<NhanVien>*);
 	static void Sort_by_NS(ListControl<NhanVien>*);
 };
@@ -66,6 +67,9 @@ inline void Utils::Sort(ListControl<NhanVien>* lc)
 	case AppContext::Sort_Type::HoVaTen:
 		Sort_by_HoVaTen(lc);
 		break;
+	case AppContext::Sort_Type::Chucvu:
+		Sort_by_ChucVu(lc);
+		break;
 	case AppContext::Sort_Type::HeSoLuong:
 		Sort_by_HSL(lc);
 		break;
@@ -94,6 +98,30 @@ inline void Utils::Sort_by_HoVaTen(ListControl<NhanVien>* lc)
 			}
 			else {
 				if (!(lc->getItem(i)->getData()->getHovaTen() >= lc->getItem(j)->getData()->getHovaTen())) {
+					NhanVien* tmp = lc->getItem(i)->getData();
+					lc->getItem(i)->setData(lc->getItem(j)->getData());
+					lc->getItem(j)->setData(tmp);
+				}
+			}
+		}
+	}
+}
+inline void Utils::Sort_by_ChucVu(ListControl<NhanVien>* lc)
+{
+	size_t lc_size = lc->Count();
+	for (size_t i = 0; i < lc_size; i++)
+	{
+		for (size_t j = 0; j < lc_size; j++)
+		{
+			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+				if (lc->getItem(i)->getData()->getChucVu() >= lc->getItem(j)->getData()->getChucVu()) {
+					NhanVien* tmp = lc->getItem(i)->getData();
+					lc->getItem(i)->setData(lc->getItem(j)->getData());
+					lc->getItem(j)->setData(tmp);
+				}
+			}
+			else {
+				if (!(lc->getItem(i)->getData()->getChucVu() >= lc->getItem(j)->getData()->getChucVu())) {
 					NhanVien* tmp = lc->getItem(i)->getData();
 					lc->getItem(i)->setData(lc->getItem(j)->getData());
 					lc->getItem(j)->setData(tmp);
@@ -176,6 +204,20 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 				}
 				else {
 					if (lc->Current()->getHovaTen() >= item->getData()->getHovaTen()) {
+						isFound = true;
+						break;
+					}
+				}
+				break;
+			case AppContext::Sort_Type::Chucvu:
+				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (!(lc->Current()->getChucVu() >= item->getData()->getChucVu())) {
+						isFound = true;
+						break;
+					}
+				}
+				else {
+					if (lc->Current()->getChucVu() >= item->getData()->getChucVu()) {
 						isFound = true;
 						break;
 					}

@@ -9,16 +9,17 @@ public:
 	enum Sort_Type
 	{
 		HoVaTen,
+		Chucvu,
 		HeSoLuong,
 		NgaySinh
 	};
 	enum Sort_Direction
 	{
-		HightoLow,
-		LowtoHigh
+		LowtoHigh,
+		HightoLow
 	};
-	static const char* Sort_Name[];
-	static const char* Sort_DName[];
+	static const string Sort_Name[];
+	static const string Sort_DName[];
 private:
 	AppContext();
 public:

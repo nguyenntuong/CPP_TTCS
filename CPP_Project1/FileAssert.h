@@ -14,6 +14,6 @@ public:
 	~FileAssert();
 public:
 	ListControl<NhanVien>* ReadFromText(bool=true);
-	static void WriteTo(string, ListControl<NhanVien>*);
+	static bool WriteTo(string, ListControl<NhanVien>*);
 };
 

@@ -20,6 +20,7 @@ public:
 	NhanVien(string, string, Date*, float);
 public:
 	string getHovaTen();
+	string getChucVu();
 	float getHSoLuong();
 	Date* getNSinh();
 	bool match_patern(string pattern);

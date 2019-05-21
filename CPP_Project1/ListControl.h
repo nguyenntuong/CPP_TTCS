@@ -12,8 +12,10 @@ public:
 public:
 	size_t Count();
 	T* Current();
+	PointerWraper<T>* CurrentPointer();
 	PointerWraper<T>* getItem(int index);
 	PointerWraper<T>* removeItem(int index);
+	PointerWraper<T>* removeItem(PointerWraper<T>* item);
 	PointerWraper<T>* getHeader();
 	void ResetIterator();
 	void pushBack(PointerWraper<T>*);
@@ -59,6 +61,12 @@ inline T* ListControl<T>::Current()
 }
 
 template<typename T>
+inline PointerWraper<T>* ListControl<T>::CurrentPointer()
+{
+	return ListControl<T>::current;
+}
+
+template<typename T>
 inline PointerWraper<T>* ListControl<T>::getItem(int index)
 {
 	int i = 0;
@@ -85,6 +93,21 @@ inline PointerWraper<T>* ListControl<T>::removeItem(int index)
 	PointerWraper<T> * next_item = item->Next();
 	previous_item->setNext(next_item);
 	next_item->setPrevious(previous_item);
+	return item;
+}
+
+template<typename T>
+inline PointerWraper<T>* ListControl<T>::removeItem(PointerWraper<T>* item)
+{	
+	if (item->Previous() != NULL) {
+		item->Previous()->setNext(item->Next());
+	}
+	else if(item->Previous() == NULL&& item->Next() != NULL){
+		item->Next()->setPrevious(NULL);
+	}
+	else{
+		ListControl<T>::current = NULL;
+	}
 	return item;
 }
 
@@ -202,5 +225,15 @@ inline bool ListControl<T>::movePrevious()
 template<typename T>
 inline ListControl<T>::~ListControl()
 {
+	if (ListControl<T>::Count() == 0) {
+		return;
+	}
+	ListControl<T>::ResetIterator();
+	PointerWraper<T>* tmp = NULL;
+	do
+	{
+		delete tmp;
+		tmp = ListControl<T>::removeItem(ListControl<T>::current);
+	} while (ListControl<T>::moveNext());
 }
 

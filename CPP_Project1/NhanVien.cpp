@@ -1,22 +1,27 @@
 ﻿#include "NhanVien.h"
 NhanVien::NhanVien()
 {
-	HovaTen = "";
-	ChucVu = "";
-	NSinh = NULL;
-	HSoLuong = 0.0;
+	NhanVien::HovaTen = "";
+	NhanVien::ChucVu = "";
+	NhanVien::NSinh = NULL;
+	NhanVien::HSoLuong = 0.0;
 }
 NhanVien::NhanVien(string hvt, string cv, Date* ns, float hsl)
 {
-	HovaTen = hvt;
-	ChucVu = cv;
-	NSinh = ns;
-	HSoLuong = hsl;
+	NhanVien::HovaTen = hvt;
+	NhanVien::ChucVu = cv;
+	NhanVien::NSinh = ns;
+	NhanVien::HSoLuong = hsl;
 }
 
 string NhanVien::getHovaTen()
 {
 	return NhanVien::HovaTen;
+}
+
+string NhanVien::getChucVu()
+{
+	return NhanVien::ChucVu;
 }
 
 float NhanVien::getHSoLuong()
@@ -26,7 +31,7 @@ float NhanVien::getHSoLuong()
 
 Date* NhanVien::getNSinh()
 {
-	return NSinh;
+	return NhanVien::NSinh;
 }
 
 bool NhanVien::match_patern(string pattern)
@@ -45,12 +50,12 @@ string NhanVien::to_string(bool pretty)
 {
 	if (pretty)
 	{
-		return string("Ho va Ten: "+HovaTen + "\n" 
-			+"Chuc vu: "+ ChucVu + "\n" 
-			+"Ngay sinh: " + NSinh->to_string() + "\n" 
-			+"He So Luong: " + std::to_string(HSoLuong) + "\n");
+		return string("Ho va Ten: "+ NhanVien::HovaTen + "\n"
+			+"Chuc vu: "+ NhanVien::ChucVu + "\n"
+			+"Ngay sinh: " + NhanVien::NSinh->to_string() + "\n"
+			+"He So Luong: " + std::to_string(NhanVien::HSoLuong) + "\n");
 	}
 	else {
-		return string(HovaTen + "," + ChucVu + "," + NSinh->to_string() + "," + std::to_string(HSoLuong) + ",");
+		return string(NhanVien::HovaTen + "," + NhanVien::ChucVu + "," + NhanVien::NSinh->to_string() + "," + std::to_string(NhanVien::HSoLuong) + ",");
 	}
 }

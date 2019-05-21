@@ -15,6 +15,7 @@ private:
 	static void PressAnyKey(string message= "Nhan phim bat ky de quay lai Menu!");
 	static void ClearScreen();
 	static void Clean();
+	static void ListInfor();
 	static int Menu();
 	static void CallFunc(int);
 

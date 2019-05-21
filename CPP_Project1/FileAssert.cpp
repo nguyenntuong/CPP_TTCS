@@ -58,9 +58,11 @@ ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
 	}
 }
 
-void FileAssert::WriteTo(string path, ListControl<NhanVien>* list)
+bool FileAssert::WriteTo(string path, ListControl<NhanVien>* list)
 {
 	fstream file(path, ios::out);
+	if (!file.is_open())
+		return false;
 	file << "Ho va Ten,Chuc vu,Ngay thang nam sinh,He so luong," << endl;
 	if (list->Count() > 0) {
 		list->ResetIterator();
@@ -70,4 +72,5 @@ void FileAssert::WriteTo(string path, ListControl<NhanVien>* list)
 		} while (list->moveNext());
 	}
 	file.close();
+	return true;
 }

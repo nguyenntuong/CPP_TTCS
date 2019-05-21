@@ -1,8 +1,8 @@
 #include "AppContext.h"
 
 AppContext* AppContext::app = new AppContext();
-const char* AppContext::Sort_Name[] = { "HoVaTen","HeSoLuong","NgaySinh" };
-const char* AppContext::Sort_DName[] = {"HightoLow","LowtoHigh"};
+const string AppContext::Sort_Name[] = { "HoVaTen","Chucvu","HeSoLuong","NgaySinh","" };
+const string AppContext::Sort_DName[] = { "LowtoHigh","HightoLow","" };
 
 AppContext::AppContext()
 {
