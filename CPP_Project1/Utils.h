@@ -39,6 +39,7 @@ inline void Utils::Split(char* original, char c, string* output, bool hasFinal)
 		output[j] = tmp;
 	}
 }
+
 inline void Utils::Split(string original, char c, string* output, bool hasFinal)
 {
 	string tmp = "";
@@ -90,14 +91,14 @@ inline void Utils::Sort_by_HoVaTen(ListControl<NhanVien>* lc)
 		for (size_t j = 0; j < lc_size; j++)
 		{
 			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-				if (lc->getItem(i)->getData()->getHovaTen() >= lc->getItem(j)->getData()->getHovaTen()) {
+				if (lc->getItem(i)->getData()->getTen() >= lc->getItem(j)->getData()->getTen()) {
 					NhanVien* tmp = lc->getItem(i)->getData();
 					lc->getItem(i)->setData(lc->getItem(j)->getData());
 					lc->getItem(j)->setData(tmp);
 				}
 			}
 			else {
-				if (!(lc->getItem(i)->getData()->getHovaTen() >= lc->getItem(j)->getData()->getHovaTen())) {
+				if (!(lc->getItem(i)->getData()->getTen() >= lc->getItem(j)->getData()->getTen())) {
 					NhanVien* tmp = lc->getItem(i)->getData();
 					lc->getItem(i)->setData(lc->getItem(j)->getData());
 					lc->getItem(j)->setData(tmp);
@@ -197,13 +198,13 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 			{
 			case AppContext::Sort_Type::HoVaTen:
 				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getHovaTen() >= item->getData()->getHovaTen())) {
+					if (!(lc->Current()->getTen() >= item->getData()->getTen())) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getHovaTen() >= item->getData()->getHovaTen()) {
+					if (lc->Current()->getTen() >= item->getData()->getTen()) {
 						isFound = true;
 						break;
 					}
@@ -245,7 +246,7 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 					}
 				}
 				else {
-					if (lc->Current()->getHovaTen() >= item->getData()->getHovaTen()) {
+					if (lc->Current()->getTen() >= item->getData()->getTen()) {
 						isFound = true;
 						break;
 					}
@@ -253,13 +254,13 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 				break;
 			default:
 				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getHovaTen() >= item->getData()->getHovaTen())) {
+					if (!(lc->Current()->getTen() >= item->getData()->getTen())) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getHovaTen() >= item->getData()->getHovaTen()) {
+					if (lc->Current()->getTen() >= item->getData()->getTen()) {
 						isFound = true;
 						break;
 					}

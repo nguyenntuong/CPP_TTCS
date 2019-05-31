@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Date.h"
 #include <string>
+#include "Date.h"
 using namespace std;
 /*
 	•	Họ và tên
@@ -19,10 +19,12 @@ public:
 	NhanVien();
 	NhanVien(string, string, Date*, float);
 public:
-	string getHovaTen();
+	string getTen();
+	string getHovaTenLowercase();
 	string getChucVu();
+	string getChucVuLowercase();
 	float getHSoLuong();
 	Date* getNSinh();
-	bool match_patern(string pattern);
+	bool match_patern(string pattern,bool allfield=false);
 	string to_string(bool=false);
 };

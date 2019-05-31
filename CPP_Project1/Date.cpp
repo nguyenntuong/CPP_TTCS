@@ -155,7 +155,7 @@ Date::Date(string sngay, string sthang, string snam)
 
 bool Date::math_pattern(string pattern)
 {
-	string tmp = std::to_string(Ngay) + std::to_string(Thang) + std::to_string(Nam);
+	string tmp = std::to_string(Ngay) +'/'+ std::to_string(Thang) + '/' + std::to_string(Nam);
 	if (tmp.find(pattern) != string::npos) {
 		return true;
 	}

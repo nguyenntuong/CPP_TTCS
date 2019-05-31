@@ -1,13 +1,9 @@
-#include "App.h"
+﻿#include "App.h"
 
 ListControl<NhanVien>* App::ListStogare = new ListControl<NhanVien>();
 
 int App::Run()
 {
-	/*if ("Nguyen van 0" >= "Nguyen Nhut Tuong") {
-		cout << "right";
-	}
-	return 0;*/
 	App::Init();
 	int chosen = 0;
 	do
@@ -275,7 +271,7 @@ void App::FindOnList() {
 		App::ListStogare->ResetIterator();
 		do
 		{
-			if (App::ListStogare->Current()->match_patern(pattern)) {
+			if (App::ListStogare->Current()->match_patern(pattern,true)) {
 				cout << "Nhan vien: " << index << endl;
 				cout << App::ListStogare->Current()->to_string(true) << endl;;
 				count++;

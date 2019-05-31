@@ -1,4 +1,5 @@
 ﻿#include "NhanVien.h"
+#include <iostream>
 NhanVien::NhanVien()
 {
 	NhanVien::HovaTen = "";
@@ -14,14 +15,35 @@ NhanVien::NhanVien(string hvt, string cv, Date* ns, float hsl)
 	NhanVien::HSoLuong = hsl;
 }
 
-string NhanVien::getHovaTen()
+string NhanVien::getTen()
 {
-	return NhanVien::HovaTen;
+	int last_space=NhanVien::HovaTen.find_last_of(' ');
+	string raw = NhanVien::HovaTen.substr(last_space + 1);
+	char lower[255];
+	strcpy_s(lower, 255, raw.c_str());
+	_strlwr_s(lower);
+	return lower;
+}
+
+string NhanVien::getHovaTenLowercase()
+{
+	char lower[255];
+	strcpy_s(lower, 255, HovaTen.c_str());
+	_strlwr_s(lower);
+	return lower;
 }
 
 string NhanVien::getChucVu()
 {
 	return NhanVien::ChucVu;
+}
+
+string NhanVien::getChucVuLowercase()
+{
+	char lower[255];
+	strcpy_s(lower, 255, ChucVu.c_str());
+	_strlwr_s(lower);
+	return lower;
 }
 
 float NhanVien::getHSoLuong()
@@ -34,13 +56,24 @@ Date* NhanVien::getNSinh()
 	return NhanVien::NSinh;
 }
 
-bool NhanVien::match_patern(string pattern)
+bool NhanVien::match_patern(string pattern,bool allfield)
 {
-	if (NSinh->math_pattern(pattern)) {
+	char lower[255];
+	strcpy_s(lower, 255, pattern.c_str());
+	_strlwr_s(lower);
+	if (NSinh->math_pattern(lower)) {
 		return true;
 	}
-	if (HovaTen.find(pattern) != string::npos) {
-		return true;
+	if (allfield) {
+		string tmp = getHovaTenLowercase() + getChucVuLowercase();
+		if (tmp.find(lower) != string::npos) {
+			return true;
+		}
+	}
+	else {
+		if (NhanVien::getHovaTenLowercase().find(lower) != string::npos) {
+			return true;
+		}
 	}
 	return false;
 }
