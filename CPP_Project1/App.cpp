@@ -41,7 +41,6 @@ void App::Clean()
 {
 	cout << "Dang don dep ";
 	App::ListStogare->~ListControl();
-	AppContext::Instance()->~AppContext();
 	for (size_t i = 0; i < 10; i++)
 	{
 		cout << ".";

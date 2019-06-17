@@ -12,7 +12,8 @@ AppContext::AppContext()
 
 AppContext::~AppContext()
 {
-	delete AppContext::app;
+	if(AppContext::app!=NULL)
+		delete AppContext::app;
 }
 
 AppContext::Sort_Type AppContext::getCurrentSortType()

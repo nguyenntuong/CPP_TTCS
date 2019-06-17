@@ -107,6 +107,7 @@ inline void Utils::Sort_by_HoVaTen(ListControl<NhanVien>* lc)
 		}
 	}
 }
+
 inline void Utils::Sort_by_ChucVu(ListControl<NhanVien>* lc)
 {
 	size_t lc_size = lc->Count();
