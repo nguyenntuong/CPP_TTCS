@@ -178,9 +178,9 @@ void App::SortList() {
 	AppContext::Instance()->setCurrentSortType(type);
 	cout << "OK." << endl;
 	cout << "SAP XEP DANH SACH" << endl;
-	Utils::Sort(App::ListStogare);
+	Utils::Sort(App::ListStogare, AppContext::Instance());
 	cout << "TAI LEN DANH SACH" << endl;
-	Sleep(500);
+	Sleep(100);
 	App::ShowList();
 }
 
@@ -218,7 +218,8 @@ void App::InsertToList() {
 				new Date(ngay, thang, nam),
 				hsluong
 			)
-			)
+			),
+		AppContext::Instance()
 	);
 	App::PressAnyKey();
 }

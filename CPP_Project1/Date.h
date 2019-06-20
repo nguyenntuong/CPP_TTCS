@@ -15,6 +15,6 @@ public:
 	Date(string, string, string);
 public:
 	bool math_pattern(string pattern);
-	bool isHigher(const Date* d);
+	int HigherOrEquals(const Date* d);
 	string to_string();
 };

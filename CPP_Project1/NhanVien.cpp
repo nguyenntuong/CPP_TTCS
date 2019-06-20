@@ -81,14 +81,16 @@ bool NhanVien::match_patern(string pattern,bool allfield)
 //Nguyễn văn A,Thư ký,10/11/1980,2.5,
 string NhanVien::to_string(bool pretty)
 {
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(2) << NhanVien::HSoLuong;
 	if (pretty)
 	{
 		return string("Ho va Ten: "+ NhanVien::HovaTen + "\n"
 			+"Chuc vu: "+ NhanVien::ChucVu + "\n"
 			+"Ngay sinh: " + NhanVien::NSinh->to_string() + "\n"
-			+"He So Luong: " + std::to_string(NhanVien::HSoLuong) + "\n");
+			+"He So Luong: " + oss.str() + "\n");
 	}
 	else {
-		return string(NhanVien::HovaTen + "," + NhanVien::ChucVu + "," + NhanVien::NSinh->to_string() + "," + std::to_string(NhanVien::HSoLuong) + ",");
+		return string(NhanVien::HovaTen + "," + NhanVien::ChucVu + "," + NhanVien::NSinh->to_string() + "," + oss.str() + ",");
 	}
 }

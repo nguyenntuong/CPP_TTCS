@@ -44,11 +44,12 @@ ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
 				lc,
 				new PointerWraper<NhanVien>(
 					new NhanVien(
-						line_infor[0], 
-						line_infor[1], 
-						new Date(date_infor[0],date_infor[1],date_infor[2]), 
+						line_infor[0],
+						line_infor[1],
+						new Date(date_infor[0], date_infor[1], date_infor[2]),
 						stof(line_infor[3]))
-					)
+					),
+				AppContext::Instance()
 			);
 		}
 		return lc;

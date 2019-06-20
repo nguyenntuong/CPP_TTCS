@@ -162,29 +162,31 @@ bool Date::math_pattern(string pattern)
 	return false;
 }
 
-bool Date::isHigher(const Date* d)
+int Date::HigherOrEquals(const Date* d)
 {
+	if (Nam == d->Nam && Thang == d->Thang && Ngay == d->Ngay)
+		return 0;
 	if (Nam > d->Nam) {
-		return true;
+		return 1;
 	}
 	else if (Nam == d->Nam) {
 		if (Thang > d->Thang) {
-			return true;
+			return 1;
 		}
 		else if (Thang == d->Thang) {
-			if (Ngay >= d->Ngay) {
-				return true;
+			if (Ngay > d->Ngay) {
+				return 1;
 			}
 			else {
-				return false;
+				return -1;
 			}
 		}
 		else {
-			return false;
+			return -1;
 		}
 	}
 	else {
-		return false;
+		return -1;
 	}
 }
 

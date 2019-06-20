@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include "Date.h"
 using namespace std;
 /*

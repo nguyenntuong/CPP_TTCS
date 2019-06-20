@@ -10,13 +10,14 @@ public:
 	static void Split(char* original, char c, string* output, bool hasFinal = true);
 	static void Split(string original, char c, string* output, bool hasFinal = true);
 
-	static void Sort(ListControl<NhanVien>*);
-	static void pushToListWithCondition(ListControl<NhanVien>*, PointerWraper<NhanVien>* item);
+	static void Sort(ListControl<NhanVien>* lc, AppContext* AC);
+	static void Sort(ListControl<NhanVien>* lc, AppContext::Sort_Direction SD, int(*comparisonFcn)(NhanVien*, NhanVien*));
+	static void pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext* AC);
 private:
-	static void Sort_by_HoVaTen(ListControl<NhanVien>*);
-	static void Sort_by_ChucVu(ListControl<NhanVien>* lc);
-	static void Sort_by_HSL(ListControl<NhanVien>*);
-	static void Sort_by_NS(ListControl<NhanVien>*);
+	static int HoVaTen_Comparison(NhanVien* nv1, NhanVien* nv2);
+	static int ChucVu_Comparison(NhanVien* nv1, NhanVien* nv2);
+	static int HSL_Comparison(NhanVien* nv1, NhanVien* nv2);
+	static int NS_Comparison(NhanVien* nv1, NhanVien* nv2);
 };
 
 inline void Utils::Split(char* original, char c, string* output, bool hasFinal)
@@ -61,44 +62,44 @@ inline void Utils::Split(string original, char c, string* output, bool hasFinal)
 	}
 }
 
-inline void Utils::Sort(ListControl<NhanVien>* lc)
+inline void Utils::Sort(ListControl<NhanVien>* lc, AppContext* AC)
 {
-	switch (AppContext::Instance()->getCurrentSortType())
+	switch (AC->getCurrentSortType())
 	{
 	case AppContext::Sort_Type::HoVaTen:
-		Sort_by_HoVaTen(lc);
+		Sort(lc, AC->getCurrentSortDirection(), HoVaTen_Comparison);
 		break;
 	case AppContext::Sort_Type::Chucvu:
-		Sort_by_ChucVu(lc);
+		Sort(lc, AC->getCurrentSortDirection(), ChucVu_Comparison);
 		break;
 	case AppContext::Sort_Type::HeSoLuong:
-		Sort_by_HSL(lc);
+		Sort(lc, AC->getCurrentSortDirection(), HSL_Comparison);
 		break;
 	case AppContext::Sort_Type::NgaySinh:
-		Sort_by_NS(lc);
+		Sort(lc, AC->getCurrentSortDirection(), NS_Comparison);
 		break;
 	default:
-		Sort_by_HoVaTen(lc);
+		Sort(lc, AC->getCurrentSortDirection(), HoVaTen_Comparison);
 		break;
 	}
 }
 
-inline void Utils::Sort_by_HoVaTen(ListControl<NhanVien>* lc)
+inline void Utils::Sort(ListControl<NhanVien>* lc, AppContext::Sort_Direction SD, int(*comparisonFcn)(NhanVien*, NhanVien*))
 {
 	size_t lc_size = lc->Count();
 	for (size_t i = 0; i < lc_size; i++)
 	{
 		for (size_t j = 0; j < lc_size; j++)
 		{
-			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-				if (lc->getItem(i)->getData()->getTen() >= lc->getItem(j)->getData()->getTen()) {
+			if (SD == AppContext::Sort_Direction::HightoLow) {
+				if (comparisonFcn(lc->getItem(i)->getData(), lc->getItem(j)->getData()) >= 0) {
 					NhanVien* tmp = lc->getItem(i)->getData();
 					lc->getItem(i)->setData(lc->getItem(j)->getData());
 					lc->getItem(j)->setData(tmp);
 				}
 			}
 			else {
-				if (!(lc->getItem(i)->getData()->getTen() >= lc->getItem(j)->getData()->getTen())) {
+				if (comparisonFcn(lc->getItem(i)->getData(), lc->getItem(j)->getData()) < 0) {
 					NhanVien* tmp = lc->getItem(i)->getData();
 					lc->getItem(i)->setData(lc->getItem(j)->getData());
 					lc->getItem(j)->setData(tmp);
@@ -108,82 +109,54 @@ inline void Utils::Sort_by_HoVaTen(ListControl<NhanVien>* lc)
 	}
 }
 
-inline void Utils::Sort_by_ChucVu(ListControl<NhanVien>* lc)
+inline int Utils::HoVaTen_Comparison(NhanVien* nv1, NhanVien* nv2)
 {
-	size_t lc_size = lc->Count();
-	for (size_t i = 0; i < lc_size; i++)
+	if (nv1->getTen() > nv2->getTen())
 	{
-		for (size_t j = 0; j < lc_size; j++)
-		{
-			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-				if (lc->getItem(i)->getData()->getChucVu() >= lc->getItem(j)->getData()->getChucVu()) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-			else {
-				if (!(lc->getItem(i)->getData()->getChucVu() >= lc->getItem(j)->getData()->getChucVu())) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-		}
+		return 1;
+	}
+	else if (nv1->getTen() < nv2->getTen()) {
+		return -1;
+	}
+	else {
+		return 0;
 	}
 }
 
-inline void Utils::Sort_by_HSL(ListControl<NhanVien>* lc)
+inline int Utils::ChucVu_Comparison(NhanVien* nv1, NhanVien* nv2)
 {
-	size_t lc_size = lc->Count();
-	for (size_t i = 0; i < lc_size; i++)
+	if (nv1->getChucVu() > nv2->getChucVu())
 	{
-		for (size_t j = 0; j < lc_size; j++)
-		{
-			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-				if (lc->getItem(i)->getData()->getHSoLuong() >= lc->getItem(j)->getData()->getHSoLuong()) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-			else {
-				if (!(lc->getItem(i)->getData()->getHSoLuong() >= lc->getItem(j)->getData()->getHSoLuong())) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-		}
+		return 1;
+	}
+	else if (nv1->getChucVu() < nv2->getChucVu()) {
+		return -1;
+	}
+	else {
+		return 0;
 	}
 }
 
-inline void Utils::Sort_by_NS(ListControl<NhanVien>* lc)
+inline int Utils::HSL_Comparison(NhanVien* nv1, NhanVien* nv2)
 {
-	size_t lc_size = lc->Count();
-	for (size_t i = 0; i < lc_size; i++)
+	if (nv1->getHSoLuong() > nv2->getHSoLuong())
 	{
-		for (size_t j = 0; j < lc_size; j++)
-		{
-			if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-				if (lc->getItem(i)->getData()->getNSinh()->isHigher(lc->getItem(j)->getData()->getNSinh())) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-			else {
-				if (!(lc->getItem(i)->getData()->getNSinh()->isHigher(lc->getItem(j)->getData()->getNSinh()))) {
-					NhanVien* tmp = lc->getItem(i)->getData();
-					lc->getItem(i)->setData(lc->getItem(j)->getData());
-					lc->getItem(j)->setData(tmp);
-				}
-			}
-		}
+		return 1;
+	}
+	else if (nv1->getHSoLuong() < nv2->getHSoLuong()) {
+		return -1;
+	}
+	else {
+		return 0;
 	}
 }
 
-inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item)
+inline int Utils::NS_Comparison(NhanVien* nv1, NhanVien* nv2)
+{
+	return nv1->getNSinh()->HigherOrEquals(nv2->getNSinh());
+}
+
+inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext* AC)
 {
 	if (lc->Count() == 0) {
 		lc->pushBack(item);
@@ -195,73 +168,73 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 		do
 		{
 			index++;
-			switch (AppContext::Instance()->getCurrentSortType())
+			switch (AC->getCurrentSortType())
 			{
 			case AppContext::Sort_Type::HoVaTen:
-				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getTen() >= item->getData()->getTen())) {
+				if (AC->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (Utils::HoVaTen_Comparison(lc->Current(), item->getData()) < 0) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getTen() >= item->getData()->getTen()) {
+					if (Utils::HoVaTen_Comparison(lc->Current(), item->getData()) >= 0) {
 						isFound = true;
 						break;
 					}
 				}
 				break;
 			case AppContext::Sort_Type::Chucvu:
-				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getChucVu() >= item->getData()->getChucVu())) {
+				if (AC->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (Utils::ChucVu_Comparison(lc->Current(), item->getData()) < 0) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getChucVu() >= item->getData()->getChucVu()) {
+					if (Utils::ChucVu_Comparison(lc->Current(), item->getData()) >= 0) {
 						isFound = true;
 						break;
 					}
 				}
 				break;
 			case AppContext::Sort_Type::HeSoLuong:
-				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getHSoLuong() >= item->getData()->getHSoLuong())) {
+				if (AC->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (Utils::HSL_Comparison(lc->Current(), item->getData()) < 0) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getHSoLuong() >= item->getData()->getHSoLuong()) {
+					if (Utils::HSL_Comparison(lc->Current(), item->getData()) >= 0) {
 						isFound = true;
 						break;
 					}
 				}
 				break;
 			case AppContext::Sort_Type::NgaySinh:
-				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getNSinh()->isHigher(item->getData()->getNSinh()))) {
+				if (AC->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (Utils::NS_Comparison(lc->Current(), item->getData()) < 0) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getTen() >= item->getData()->getTen()) {
+					if (Utils::NS_Comparison(lc->Current(), item->getData()) >= 0) {
 						isFound = true;
 						break;
 					}
 				}
 				break;
 			default:
-				if (AppContext::Instance()->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
-					if (!(lc->Current()->getTen() >= item->getData()->getTen())) {
+				if (AC->getCurrentSortDirection() == AppContext::Sort_Direction::HightoLow) {
+					if (Utils::HoVaTen_Comparison(lc->Current(), item->getData()) < 0) {
 						isFound = true;
 						break;
 					}
 				}
 				else {
-					if (lc->Current()->getTen() >= item->getData()->getTen()) {
+					if (Utils::HoVaTen_Comparison(lc->Current(), item->getData()) >= 0) {
 						isFound = true;
 						break;
 					}
