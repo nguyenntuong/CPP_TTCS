@@ -69,6 +69,16 @@ bool NhanVien::match_patern(string pattern,bool allfield)
 		if (tmp.find(lower) != string::npos) {
 			return true;
 		}
+		try
+		{
+			float f = stof(lower);
+			if (f==NhanVien::HSoLuong) {
+				return true;
+			}
+		}
+		catch (const std::exception&)
+		{
+		}
 	}
 	else {
 		if (NhanVien::getHovaTenLowercase().find(lower) != string::npos) {
