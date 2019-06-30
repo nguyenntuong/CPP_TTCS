@@ -101,8 +101,11 @@ inline PointerWraper<T>* ListControl<T>::removeItem(PointerWraper<T>* item)
 {	
 	if (item->Previous() != NULL) {
 		item->Previous()->setNext(item->Next());
+		if (item->Next() != NULL) {
+			item->Next()->setPrevious(item->Previous());
+		}
 	}
-	else if(item->Previous() == NULL&& item->Next() != NULL){
+	else if(item->Previous() == NULL && item->Next() != NULL){
 		item->Next()->setPrevious(NULL);
 	}
 	else{

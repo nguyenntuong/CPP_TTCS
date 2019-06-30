@@ -243,6 +243,7 @@ void App::DeleteFromList() {
 		{
 			if (tmp != NULL) {
 				delete tmp;
+				tmp = NULL;
 			}
 			if (App::ListStogare->Current()->match_patern(pattern)) {
 				tmp = App::ListStogare->removeItem(App::ListStogare->CurrentPointer());
