@@ -1,42 +1,42 @@
 #include "AppContext.h"
 
-AppContext* AppContext::app = new AppContext();
-const string AppContext::Sort_Name[] = { "HoVaTen","Chucvu","HeSoLuong","NgaySinh","" };
-const string AppContext::Sort_DName[] = { "LowtoHigh","HightoLow","" };
+AppContext* AppContext::_app = new AppContext();
+const string AppContext::SORT_NAME[] = { "HOVATEN","CHUCVU","HESOLUONG","NGAYSINH","" };
+const string AppContext::SORT_DNAME[] = { "THAPTOICAO","CAOTOITHAP","" };
 
 AppContext::AppContext()
 {
-	AppContext::CurrentSortType = Sort_Type::HoVaTen;
-	AppContext::CurrentSortDirection = Sort_Direction::LowtoHigh;
+	AppContext::currentSortType = SORT_TYPE::HOVATEN;
+	AppContext::currentSortDirection = SORT_DIRECTION::THAPTOICAO;
 }
 
 AppContext::~AppContext()
 {
-	if(AppContext::app!=NULL)
-		delete AppContext::app;
+	if(AppContext::_app!=NULL)
+		delete AppContext::_app;
 }
 
-AppContext::Sort_Type AppContext::getCurrentSortType()
+AppContext::SORT_TYPE AppContext::getCurrentSortType()
 {
-	return AppContext::CurrentSortType;
+	return AppContext::currentSortType;
 }
 
-AppContext::Sort_Direction AppContext::getCurrentSortDirection()
+AppContext::SORT_DIRECTION AppContext::getCurrentSortDirection()
 {
-	return AppContext::CurrentSortDirection;
+	return AppContext::currentSortDirection;
 }
 
-void AppContext::setCurrentSortType(Sort_Type st)
+void AppContext::setCurrentSortType(SORT_TYPE st)
 {
-	AppContext::CurrentSortType = st;
+	AppContext::currentSortType = st;
 }
 
-void AppContext::setCurrentSortDirection(Sort_Direction sd)
+void AppContext::setCurrentSortDirection(SORT_DIRECTION sd)
 {
-	AppContext::CurrentSortDirection = sd;
+	AppContext::currentSortDirection = sd;
 }
 
-AppContext* AppContext::Instance()
+AppContext* AppContext::instance()
 {
-	return AppContext::app;
+	return AppContext::_app;
 }

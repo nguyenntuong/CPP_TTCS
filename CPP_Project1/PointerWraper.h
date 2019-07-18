@@ -4,9 +4,9 @@ template<typename T>
 class PointerWraper
 {
 private:
-	T* data;
-	PointerWraper<T>* next;
-	PointerWraper<T>* previous;
+	T* _data;
+	PointerWraper<T>* _next;
+	PointerWraper<T>* _previous;
 public:
 	PointerWraper();
 	PointerWraper(T*);
@@ -14,9 +14,9 @@ public:
 	T* getData();
 	void setData(T*);
 	void setNext(PointerWraper<T>* next);
-	PointerWraper<T>* Next();
+	PointerWraper<T>* next();
 	void setPrevious(PointerWraper<T>* previous);
-	PointerWraper<T>* Previous();
+	PointerWraper<T>* previous();
 };
 
 /*  Template definition */
@@ -24,50 +24,50 @@ public:
 template<typename T>
 inline PointerWraper<T>::PointerWraper()
 {
-	data = NULL;
-	PointerWraper<T>::next = NULL;
-	PointerWraper<T>::previous = NULL;
+	_data = NULL;
+	PointerWraper<T>::_next = NULL;
+	PointerWraper<T>::_previous = NULL;
 }
 template<typename T>
 inline PointerWraper<T>::PointerWraper(T* data)
 {
-	PointerWraper<T>::data = data;
-	PointerWraper<T>::next = NULL;
-	PointerWraper<T>::previous = NULL;
+	PointerWraper<T>::_data = data;
+	PointerWraper<T>::_next = NULL;
+	PointerWraper<T>::_previous = NULL;
 }
 
 template<typename T>
 inline T* PointerWraper<T>::getData()
 {
-	return data;
+	return _data;
 }
 
 template<typename T>
 inline void PointerWraper<T>::setData(T* newData)
 {
-	data = newData;
+	_data = newData;
 }
 
 template<typename T>
 inline void PointerWraper<T>::setNext(PointerWraper<T>* next)
 {
-	PointerWraper<T>::next = next;
+	PointerWraper<T>::_next = next;
 }
 
 template<typename T>
-inline PointerWraper<T>* PointerWraper<T>::Next()
+inline PointerWraper<T>* PointerWraper<T>::next()
 {
-	return PointerWraper::next;
+	return PointerWraper::_next;
 }
 
 template<typename T>
 inline void PointerWraper<T>::setPrevious(PointerWraper<T>* previous)
 {
-	PointerWraper<T>::previous = previous;
+	PointerWraper<T>::_previous = previous;
 }
 
 template<typename T>
-inline PointerWraper<T>* PointerWraper<T>::Previous()
+inline PointerWraper<T>* PointerWraper<T>::previous()
 {
-	return PointerWraper::previous;
+	return PointerWraper::_previous;
 }

@@ -13,10 +13,10 @@ using namespace std;
 class NhanVien
 {
 private:
-	string HovaTen;
-	string ChucVu;
-	Date* NSinh;
-	float HSoLuong;
+	string _hovaten;
+	string _chucvu;
+	Date* _nsinh;
+	float _hsoluong;
 public:
 	NhanVien();
 	NhanVien(string, string, Date*, float);

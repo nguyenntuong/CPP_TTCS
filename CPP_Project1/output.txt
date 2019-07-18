@@ -1,6 +1,0 @@
-Ho va Ten,Chuc vu,Ngay thang nam sinh,He so luong,
-Nguyen van Da,Giam doc,11/2/1992,3.5,
-Nguyen Nhut Tuong,Giam doc,1/1/1997,5.5,
-Nguyen van Anh,Thu ky,11/7/1981,2.5,
-Nguyen van Chuong,Nhan vien,21/8/1999,4.5,
-Nguyen van Ong,Ky thuat,9/8/1985,1.5,

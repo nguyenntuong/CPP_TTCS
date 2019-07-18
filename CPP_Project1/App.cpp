@@ -1,46 +1,46 @@
 ﻿#include "App.h"
 
-ListControl<NhanVien>* App::ListStogare = new ListControl<NhanVien>();
+ListControl<NhanVien>* App::_listStogare = new ListControl<NhanVien>();
 
-int App::Run()
+int App::run()
 {
-	App::Init();
+	App::init();
 	int chosen = 0;
 	do
 	{
-		chosen = App::Menu();
-		App::CallFunc(chosen);
+		chosen = App::menu();
+		App::callFunction(chosen);
 	} while (chosen != 0);
-	App::Clean();
+	App::clean();
 	return 0;
 }
 
-void App::Init()
+void App::init()
 {
 	SetConsoleOutputCP(CP_UTF8);
 }
 
-void App::Pause()
+void App::pause()
 {
 	system("pause");
 }
 
-void App::PressAnyKey(string message)
+void App::pressAnyKey(string message)
 {
 	cout << endl;
 	cout << message << endl;
 	system("pause");
 }
 
-void App::ClearScreen()
+void App::clearScreen()
 {
 	system("cls");
 }
 
-void App::Clean()
+void App::clean()
 {
 	cout << "Dang don dep ";
-	App::ListStogare->~ListControl();
+	App::_listStogare->~ListControl();
 	for (size_t i = 0; i < 10; i++)
 	{
 		cout << ".";
@@ -50,20 +50,20 @@ void App::Clean()
 	Sleep(500);
 }
 
-void App::ListInfor() {
+void App::listInfor() {
 	cout << endl;
 	cout << "DANH SACH NHAN VIEN" << endl;
-	cout << "Co: " << App::ListStogare->Count() << " Nhan vien" << endl;
-	cout << "Xap xep theo: " << AppContext::Sort_Name[AppContext::Instance()->getCurrentSortType()] << endl;
-	cout << "Theo thu tu: " << AppContext::Sort_DName[AppContext::Instance()->getCurrentSortDirection()] << endl;
+	cout << "Co: " << App::_listStogare->count() << " Nhan vien" << endl;
+	cout << "Xap xep theo: " << AppContext::SORT_NAME[AppContext::instance()->getCurrentSortType()] << endl;
+	cout << "Theo thu tu: " << AppContext::SORT_DNAME[AppContext::instance()->getCurrentSortDirection()] << endl;
 	cout << endl;
 }
 
-int App::Menu()
+int App::menu()
 {
 	int chosen = 0;
 	do {
-		App::ClearScreen();
+		App::clearScreen();
 		cout << "THUC TAP CO SO - QUAN LY NHAN VIEN" << endl;
 		cout << "CHON CHUC NANG:" << endl;
 		cout << ".1. Nhap danh sach tu file text." << endl;
@@ -86,109 +86,109 @@ int App::Menu()
 	return 0;
 }
 
-void App::CallFunc(int idFunc) {
+void App::callFunction(int idFunc) {
 	switch (idFunc)
 	{
 	case 1:
-		App::FuncLoadFromFile();
+		App::funcLoadFromFile();
 		break;
 	case 2:
-		App::SortList();
+		App::sortList();
 		break;
 	case 3:
-		App::InsertToList();
+		App::insertToList();
 		break;
 	case 4:
-		App::DeleteFromList();
+		App::deleteFromList();
 		break;
 	case 5:
-		App::FindOnList();
+		App::findOnList();
 		break;
 	case 6:
-		App::ExportList();
+		App::exportList();
 		break;
 	case 7:
-		App::ShowList();
+		App::showList();
 		break;
 	default:
 		break;
 	}
 }
 
-void App::FuncLoadFromFile() {
-	App::ClearScreen();
+void App::funcLoadFromFile() {
+	App::clearScreen();
 	string path = "";
 	cout << "LAY DANH SACH NHAN VIEN TU FILE" << endl;
 	cout << "Duong dan toi file:";
 	cin >> path;
 	FileAssert* file = new FileAssert(path);
-	App::ListStogare = file->ReadFromText();
+	App::_listStogare = file->readFromFile();
 	string state = "thanh cong";
-	if (App::ListStogare->Count() == 0) {
+	if (App::_listStogare->count() == 0) {
 		state = "that bai";
 	}
-	cout << "Doc " << state << ". So luong: " << App::ListStogare->Count() << " Nhan vien" << endl;
-	App::PressAnyKey();
+	cout << "Doc " << state << ". So luong: " << App::_listStogare->count() << " Nhan vien" << endl;
+	App::pressAnyKey();
 }
 
-void App::SortList() {
-	App::ClearScreen();
+void App::sortList() {
+	App::clearScreen();
 	cout << "SAP XEP DANH SACH" << endl;
 	cout << endl;
-	AppContext::Sort_Type type;
-	AppContext::Sort_Direction direction;
+	AppContext::SORT_TYPE type;
+	AppContext::SORT_DIRECTION direction;
 	int chose = 0;
 	cout << "Chon kieu sap xep:" << endl;
 	size_t i = 0;
-	while (!AppContext::Sort_Name[i].empty())
+	while (!AppContext::SORT_NAME[i].empty())
 	{
-		cout << "." << i << "." << " " << AppContext::Sort_Name[i] << endl;
+		cout << "." << i << "." << " " << AppContext::SORT_NAME[i] << endl;
 		i++;
 	}
 	cout << "Chon: ";
 	cin >> chose;
 	if (chose >= 0 && chose < (int)i) {
-		cout << "Sap xep theo: " << AppContext::Sort_Name[chose] << endl;
-		type = (AppContext::Sort_Type)chose;
+		cout << "Sap xep theo: " << AppContext::SORT_NAME[chose] << endl;
+		type = (AppContext::SORT_TYPE)chose;
 	}
 	else {
-		cout << "Sap xep theo kieu mac dinh: " << AppContext::Sort_Name[0] << endl;
-		type = (AppContext::Sort_Type)0;
+		cout << "Sap xep theo kieu mac dinh: " << AppContext::SORT_NAME[0] << endl;
+		type = (AppContext::SORT_TYPE)0;
 	}
 
 	cout << "Chon thu tu sap xep:" << endl;
 	i = 0;
-	while (!AppContext::Sort_DName[i].empty())
+	while (!AppContext::SORT_DNAME[i].empty())
 	{
-		cout << "." << i << "." << " " << AppContext::Sort_DName[i] << endl;
+		cout << "." << i << "." << " " << AppContext::SORT_DNAME[i] << endl;
 		i++;
 	}
 	cout << "Chon: ";
 	cin >> chose;
 	if (chose >= 0 && chose < (int)i) {
-		cout << "Sap xep theo thu tu: " << AppContext::Sort_DName[chose] << endl;
-		direction = (AppContext::Sort_Direction)chose;
+		cout << "Sap xep theo thu tu: " << AppContext::SORT_DNAME[chose] << endl;
+		direction = (AppContext::SORT_DIRECTION)chose;
 	}
 	else {
-		cout << "Sap xep theo kieu mac dinh: " << AppContext::Sort_DName[0] << endl;
-		direction = (AppContext::Sort_Direction)0;
+		cout << "Sap xep theo kieu mac dinh: " << AppContext::SORT_DNAME[0] << endl;
+		direction = (AppContext::SORT_DIRECTION)0;
 	}
 	cout << "AP DUNG CAU HINH ... ";
-	AppContext::Instance()->setCurrentSortDirection(direction);
-	AppContext::Instance()->setCurrentSortType(type);
+	AppContext::instance()->setCurrentSortDirection(direction);
+	AppContext::instance()->setCurrentSortType(type);
 	cout << "OK." << endl;
 	cout << "SAP XEP DANH SACH" << endl;
-	Utils::Sort(App::ListStogare, AppContext::Instance());
+	Utils::sort(App::_listStogare, AppContext::instance());
 	cout << "TAI LEN DANH SACH" << endl;
 	Sleep(100);
-	App::ShowList();
+	App::showList();
 }
 
-void App::InsertToList() {
-	App::ClearScreen();
+void App::insertToList() {
+	App::clearScreen();
 	cout << "CHEN NHAN VIEN VAO DANH SACH" << endl;
 	cout << endl;
-	App::ListInfor();
+	App::listInfor();
 	char hovaten[255], chucvu[255];
 	int ngay, thang, nam;
 	float hsluong;
@@ -210,7 +210,7 @@ void App::InsertToList() {
 	cin >> hsluong;
 	cout << "Da dua vao danh sach." << endl;
 	Utils::pushToListWithCondition(
-		App::ListStogare,
+		App::_listStogare,
 		new PointerWraper<NhanVien>(
 			new NhanVien(
 				string(hovaten),
@@ -219,25 +219,25 @@ void App::InsertToList() {
 				hsluong
 			)
 			),
-		AppContext::Instance()
+		AppContext::instance()
 	);
-	App::PressAnyKey();
+	App::pressAnyKey();
 }
 
-void App::DeleteFromList() {
-	App::ClearScreen();
+void App::deleteFromList() {
+	App::clearScreen();
 	cout << "XOA NHAN VIEN TRONG DANH SACH" << endl;
 	cout << endl;
 	char key[255];
 	cin.ignore();
 	cout << "Nhap tu khoa: ";
 	cin.getline(key, 255);
-	if (App::ListStogare->Count() == 0)
+	if (App::_listStogare->count() == 0)
 		cout << "Khong co gi de xoa!" << endl;
 	else {
 		int count = 0;
 		string pattern(key);
-		App::ListStogare->ResetIterator();
+		App::_listStogare->resetIterator();
 		PointerWraper<NhanVien>* tmp = NULL;
 		do
 		{
@@ -245,79 +245,79 @@ void App::DeleteFromList() {
 				delete tmp;
 				tmp = NULL;
 			}
-			if (App::ListStogare->Current()->match_patern(pattern)) {
-				tmp = App::ListStogare->removeItem(App::ListStogare->CurrentPointer());
+			if (App::_listStogare->current()->match_patern(pattern)) {
+				tmp = App::_listStogare->removeItem(App::_listStogare->currentPointer());
 				count++;
 			}
-		} while (App::ListStogare->moveNext());
+		} while (App::_listStogare->moveNext());
 		cout << "Da xoa: " << count << " Nhan vien." << endl;
 	}
-	App::PressAnyKey();
+	App::pressAnyKey();
 }
 
-void App::FindOnList() {
-	App::ClearScreen();
+void App::findOnList() {
+	App::clearScreen();
 	cout << "TIM NHAN VIEN TRONG DANH SACH" << endl;
 	cout << endl;
 	char key[255];
 	cin.ignore();
 	cout << "Nhap tu khoa: ";
 	cin.getline(key, 255);
-	if (App::ListStogare->Count() == 0)
+	if (App::_listStogare->count() == 0)
 		cout << "Khong co gi tim kiem!" << endl;
 	else {
 		int count = 0;
 		int index = 0;
 		string pattern(key);
-		App::ListStogare->ResetIterator();
+		App::_listStogare->resetIterator();
 		do
 		{
-			if (App::ListStogare->Current()->match_patern(pattern,true)) {
+			if (App::_listStogare->current()->match_patern(pattern,true)) {
 				cout << "Nhan vien: " << index << endl;
-				cout << App::ListStogare->Current()->to_string(true) << endl;;
+				cout << App::_listStogare->current()->to_string(true) << endl;;
 				count++;
 			}
 			index++;
-		} while (App::ListStogare->moveNext());
+		} while (App::_listStogare->moveNext());
 		cout << "Da tim thay: " << count << " Nhan vien." << endl;
 	}
-	App::PressAnyKey();
+	App::pressAnyKey();
 }
 
-void App::ExportList() {
-	App::ClearScreen();
+void App::exportList() {
+	App::clearScreen();
 	cout << "XUAT DANH SACH THANH FILE" << endl;
 	cout << endl;
-	App::ListInfor();
+	App::listInfor();
 	cout << endl;
 	char path[255];
 	cin.ignore();
 	cout << "Nhap ten file hoac dung dan cung ten file:";
 	cin.getline(path, 255);
 	cout << "DANG XUAT FILE" << endl;
-	if (FileAssert::WriteTo(string(path), App::ListStogare)) {
+	if (FileAssert::writeToFile(string(path), App::_listStogare)) {
 		cout << "XUAT FILE THANH CONG" << endl;
 		cout << "Luu o: " << path << endl;
 	}
 	else {
 		cout << "XUAT FILE THAT BAI. LOI!" << endl;
 	}
-	App::PressAnyKey();
+	App::pressAnyKey();
 }
 
-void App::ShowList() {
-	App::ClearScreen();
-	App::ListInfor();
+void App::showList() {
+	App::clearScreen();
+	App::listInfor();
 	cout << "Du lieu:" << endl;
-	if (App::ListStogare->Count() == 0) {
+	if (App::_listStogare->count() == 0) {
 		cout << "Danh sach rong hoac chua duoc nhap du lieu!" << endl;
 	}
 	else {
-		App::ListStogare->ResetIterator();
+		App::_listStogare->resetIterator();
 		do
 		{
-			cout << App::ListStogare->Current()->to_string(true) << endl;
-		} while (App::ListStogare->moveNext());
+			cout << App::_listStogare->current()->to_string(true) << endl;
+		} while (App::_listStogare->moveNext());
 	}
-	App::PressAnyKey();
+	App::pressAnyKey();
 }

@@ -10,25 +10,25 @@ using namespace std;
 class App
 {
 private:
-	static ListControl<NhanVien>* ListStogare;
+	static ListControl<NhanVien>* _listStogare;
 private:
-	static void Init();
-	static void Pause();
-	static void PressAnyKey(string message= "Nhan phim bat ky de quay lai Menu!");
-	static void ClearScreen();
-	static void Clean();
-	static void ListInfor();
-	static int Menu();
-	static void CallFunc(int);
+	static void init();
+	static void pause();
+	static void pressAnyKey(string message= "Nhan phim bat ky de quay lai Menu!");
+	static void clearScreen();
+	static void clean();
+	static void listInfor();
+	static int menu();
+	static void callFunction(int);
 
-	static void FuncLoadFromFile();
-	static void SortList();
-	static void InsertToList();
-	static void DeleteFromList();
-	static void FindOnList();
-	static void ExportList();
-	static void ShowList();
+	static void funcLoadFromFile();
+	static void sortList();
+	static void insertToList();
+	static void deleteFromList();
+	static void findOnList();
+	static void exportList();
+	static void showList();
 
 public:
-	static int Run();
+	static int run();
 };

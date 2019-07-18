@@ -4,7 +4,7 @@
 
 FileAssert::FileAssert()
 {
-	FileAssert::path = "input.txt";
+	FileAssert::_path = "input.txt";
 }
 
 FileAssert::FileAssert(string path)
@@ -13,7 +13,7 @@ FileAssert::FileAssert(string path)
 		FileAssert();
 	}
 	else {
-		FileAssert::path = path;
+		FileAssert::_path = path;
 	}
 }
 
@@ -22,9 +22,9 @@ FileAssert::~FileAssert()
 {
 }
 
-ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
+ListControl<NhanVien>* FileAssert::readFromFile(bool hasHeader)
 {	
-	fstream file(FileAssert::path,ios::in);
+	fstream file(FileAssert::_path,ios::in);
 	if (file.is_open()) {
 		ListControl<NhanVien>* lc = new ListControl<NhanVien>();
 		char data[255];
@@ -37,9 +37,9 @@ ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
 				break;
 			}
 			string line_infor[4];
-			Utils::Split(data, ',', line_infor);
+			Utils::split(data, ',', line_infor);
 			string date_infor[3];
-			Utils::Split(line_infor[2], '/', date_infor, false);
+			Utils::split(line_infor[2], '/', date_infor, false);
 			Utils::pushToListWithCondition(
 				lc,
 				new PointerWraper<NhanVien>(
@@ -49,9 +49,10 @@ ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
 						new Date(date_infor[0], date_infor[1], date_infor[2]),
 						stof(line_infor[3]))
 					),
-				AppContext::Instance()
+				AppContext::instance()
 			);
 		}
+		file.close();
 		return lc;
 	}
 	else {
@@ -59,17 +60,17 @@ ListControl<NhanVien>* FileAssert::ReadFromText(bool hasHeader)
 	}
 }
 
-bool FileAssert::WriteTo(string path, ListControl<NhanVien>* list)
+bool FileAssert::writeToFile(string path, ListControl<NhanVien>* list)
 {
 	fstream file(path, ios::out);
 	if (!file.is_open())
 		return false;
 	file << "Ho va Ten,Chuc vu,Ngay thang nam sinh,He so luong," << endl;
-	if (list->Count() > 0) {
-		list->ResetIterator();
+	if (list->count() > 0) {
+		list->resetIterator();
 		do
 		{
-			file << list->Current()->to_string() << endl;
+			file << list->current()->to_string() << endl;
 		} while (list->moveNext());
 	}
 	file.close();

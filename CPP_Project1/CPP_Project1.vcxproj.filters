@@ -61,7 +61,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="output.txt" />
+    <Text Include="input.csv" />
+    <Text Include="output.csv" />
   </ItemGroup>
 </Project>

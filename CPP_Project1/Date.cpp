@@ -1,6 +1,6 @@
 #include "Date.h"
 
-bool Date::NamNhuan(int year)
+bool Date::isLeapYear(int year)
 {
 	if (year % 100 == 0)
 
@@ -22,65 +22,65 @@ bool Date::NamNhuan(int year)
 
 Date::Date()
 {
-	Ngay = 1;
-	Thang = 1;
-	Nam = 2000;
+	_dayinmonth = 1;
+	_month = 1;
+	_year = 2000;
 }
 
 Date::Date(int ngay, int thang, int nam)
 {
 	if (nam > 0) {
-		Date::Nam = nam;
+		Date::_year = nam;
 		if (thang > 0 && thang < 13) {
-			Date::Thang = thang;
+			Date::_month = thang;
 			switch (thang)
 			{
 			case 2:
-				if (Date::NamNhuan(nam)) {
+				if (Date::isLeapYear(nam)) {
 					if (ngay > 0 && ngay < 30) {
-						Date::Ngay = ngay;
+						Date::_dayinmonth = ngay;
 					}
 					else {
-						Date::Ngay = 1;
+						Date::_dayinmonth = 1;
 					}
 				}
 				else
 				{
 					if (ngay > 0 && ngay < 29) {
-						Date::Ngay = ngay;
+						Date::_dayinmonth = ngay;
 					}
 					else {
-						Date::Ngay = 1;
+						Date::_dayinmonth = 1;
 					}
 				}
 				break;
 			case 1|3|5|7|8|10|12:
 				if (ngay > 0 && ngay < 32) {
-					Date::Ngay = ngay;
+					Date::_dayinmonth = ngay;
 				}
 				else {
-					Date::Ngay = 1;
+					Date::_dayinmonth = 1;
 				}
 				break;
 			default:
 				if (ngay > 0 && ngay < 31) {
-					Date::Ngay = ngay;
+					Date::_dayinmonth = ngay;
 				}
 				else {
-					Date::Ngay = 1;
+					Date::_dayinmonth = 1;
 				}
 				break;
 			}
 		}
 		else {
-			Date::Thang = 1;
-			Date::Ngay = 1;
+			Date::_month = 1;
+			Date::_dayinmonth = 1;
 		}
 	}
 	else {
-		Date::Ngay = 1;
-		Date::Thang = 1;
-		Date::Nam = 2000;
+		Date::_dayinmonth = 1;
+		Date::_month = 1;
+		Date::_year = 2000;
 	}
 }
 
@@ -92,89 +92,89 @@ Date::Date(string sngay, string sthang, string snam)
 		int thang = stoi(sthang);
 		int nam = stoi(snam);
 		if (nam > 0) {
-			Date::Nam = nam;
+			Date::_year = nam;
 			if (thang > 0 && thang < 13) {
-				Date::Thang = thang;
+				Date::_month = thang;
 				switch (thang)
 				{
 				case 2:
-					if (Date::NamNhuan(nam)) {
+					if (Date::isLeapYear(nam)) {
 						if (ngay > 0 && ngay < 30) {
-							Date::Ngay = ngay;
+							Date::_dayinmonth = ngay;
 						}
 						else {
-							Date::Ngay = 1;
+							Date::_dayinmonth = 1;
 						}
 					}
 					else
 					{
 						if (ngay > 0 && ngay < 29) {
-							Date::Ngay = ngay;
+							Date::_dayinmonth = ngay;
 						}
 						else {
-							Date::Ngay = 1;
+							Date::_dayinmonth = 1;
 						}
 					}
 					break;
 				case 1 | 3 | 5 | 7 | 8 | 10 | 12:
 					if (ngay > 0 && ngay < 32) {
-						Date::Ngay = ngay;
+						Date::_dayinmonth = ngay;
 					}
 					else {
-						Date::Ngay = 1;
+						Date::_dayinmonth = 1;
 					}
 					break;
 				default:
 					if (ngay > 0 && ngay < 31) {
-						Date::Ngay = ngay;
+						Date::_dayinmonth = ngay;
 					}
 					else {
-						Date::Ngay = 1;
+						Date::_dayinmonth = 1;
 					}
 					break;
 				}
 			}
 			else {
-				Date::Thang = 1;
-				Date::Ngay = 1;
+				Date::_month = 1;
+				Date::_dayinmonth = 1;
 			}
 		}
 		else {
-			Date::Ngay = 1;
-			Date::Thang = 1;
-			Date::Nam = 2000;
+			Date::_dayinmonth = 1;
+			Date::_month = 1;
+			Date::_year = 2000;
 		}
 	}
 	catch (const std::exception&)
 	{
-		Date::Ngay = 1;
-		Date::Thang = 1;
-		Date::Nam = 2000;
+		Date::_dayinmonth = 1;
+		Date::_month = 1;
+		Date::_year = 2000;
 	}
 }
 
 bool Date::math_pattern(string pattern)
 {
-	string tmp = std::to_string(Ngay) +'/'+ std::to_string(Thang) + '/' + std::to_string(Nam);
+	string tmp = std::to_string(_dayinmonth) +'/'+ std::to_string(_month) + '/' + std::to_string(_year);
 	if (tmp.find(pattern) != string::npos) {
 		return true;
 	}
 	return false;
 }
 
-int Date::HigherOrEquals(const Date* d)
+int Date::compares(const Date* d)
 {
-	if (Nam == d->Nam && Thang == d->Thang && Ngay == d->Ngay)
+	if (_year == d->_year && _month == d->_month && _dayinmonth == d->_dayinmonth)
 		return 0;
-	if (Nam > d->Nam) {
+	if (_year > d->_year) {
 		return 1;
 	}
-	else if (Nam == d->Nam) {
-		if (Thang > d->Thang) {
+	else if (_year == d->_year) {
+		if (_month > d->_month) {
 			return 1;
 		}
-		else if (Thang == d->Thang) {
-			if (Ngay > d->Ngay) {
+		else if (_month == d->_month) {
+			if (_dayinmonth > d->_dayinmonth) {
 				return 1;
 			}
 			else {
@@ -194,5 +194,5 @@ int Date::HigherOrEquals(const Date* d)
 //10/11/1980
 string Date::to_string()
 {
-	return string(std::to_string(Ngay)+"/"+ std::to_string(Thang)+"/"+ std::to_string(Nam));
+	return string(std::to_string(_dayinmonth)+"/"+ std::to_string(_month)+"/"+ std::to_string(_year));
 }

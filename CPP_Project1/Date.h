@@ -4,17 +4,17 @@ using namespace std;
 class Date
 {
 private:
-	int Ngay;
-	int Thang;
-	int Nam;
+	int _dayinmonth;
+	int _month;
+	int _year;
 private:
-	bool NamNhuan(int);
+	bool isLeapYear(int);
 public:
 	Date();
 	Date(int, int, int);
 	Date(string, string, string);
 public:
 	bool math_pattern(string pattern);
-	int HigherOrEquals(const Date* d);
+	int compares(const Date* d);
 	string to_string();
 };

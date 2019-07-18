@@ -4,34 +4,34 @@ using namespace std;
 class AppContext
 {
 private:
-	static AppContext *app;
+	static AppContext *_app;
 public:
-	enum Sort_Type
+	enum SORT_TYPE
 	{
-		HoVaTen,
-		Chucvu,
-		HeSoLuong,
-		NgaySinh
+		HOVATEN,
+		CHUCVU,
+		HESOLUONG,
+		NGAYSINH
 	};
-	enum Sort_Direction
+	enum SORT_DIRECTION
 	{
-		LowtoHigh,
-		HightoLow
+		THAPTOICAO,
+		CAOTOITHAP
 	};
-	static const string Sort_Name[];
-	static const string Sort_DName[];
+	static const string SORT_NAME[];
+	static const string SORT_DNAME[];
 private:
 	AppContext();
 public:
 	~AppContext();
 private:
-	Sort_Type CurrentSortType;
-	Sort_Direction CurrentSortDirection;
+	SORT_TYPE currentSortType;
+	SORT_DIRECTION currentSortDirection;
 public:
-	Sort_Type getCurrentSortType();
-	Sort_Direction getCurrentSortDirection();
-	void setCurrentSortType(Sort_Type);
-	void setCurrentSortDirection(Sort_Direction);
-	static AppContext* Instance();
+	SORT_TYPE getCurrentSortType();
+	SORT_DIRECTION getCurrentSortDirection();
+	void setCurrentSortType(SORT_TYPE);
+	void setCurrentSortDirection(SORT_DIRECTION);
+	static AppContext* instance();
 };
 

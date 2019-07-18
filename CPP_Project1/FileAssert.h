@@ -7,13 +7,13 @@ using namespace std;
 class FileAssert
 {
 private:
-	string path;
+	string _path;
 public:
 	FileAssert();
 	FileAssert(string path);
 	~FileAssert();
 public:
-	ListControl<NhanVien>* ReadFromText(bool=true);
-	static bool WriteTo(string, ListControl<NhanVien>*);
+	ListControl<NhanVien>* readFromFile(bool=true);
+	static bool writeToFile(string, ListControl<NhanVien>*);
 };
 

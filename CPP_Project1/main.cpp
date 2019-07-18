@@ -1,6 +1,6 @@
 #include "App.h"
 
 int main() {
-	int res = App::Run();
+	int res = App::run();
 	return res;
 }
