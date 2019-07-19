@@ -54,7 +54,7 @@ Date::Date(int ngay, int thang, int nam)
 					}
 				}
 				break;
-			case 1|3|5|7|8|10|12:
+			case 1 | 3 | 5 | 7 | 8 | 10 | 12:
 				if (ngay > 0 && ngay < 32) {
 					Date::_dayinmonth = ngay;
 				}
@@ -155,8 +155,9 @@ Date::Date(string sngay, string sthang, string snam)
 
 bool Date::math_pattern(string pattern)
 {
-	string tmp = std::to_string(_dayinmonth) +'/'+ std::to_string(_month) + '/' + std::to_string(_year);
-	if (tmp.find(pattern) != string::npos) {
+	string case_1 = (_dayinmonth >= 10 ? "" : "0") + std::to_string(_dayinmonth) + '/' + (_month >= 10 ? "" : "0") + std::to_string(_month) + '/' + std::to_string(_year);
+	string case_2 = std::to_string(_dayinmonth) + '/' + std::to_string(_month) + '/' + std::to_string(_year);
+	if (case_1.find(pattern) != string::npos || case_2.find(pattern) != string::npos) {
 		return true;
 	}
 	return false;
@@ -194,5 +195,5 @@ int Date::compares(const Date* d)
 //10/11/1980
 string Date::to_string()
 {
-	return string(std::to_string(_dayinmonth)+"/"+ std::to_string(_month)+"/"+ std::to_string(_year));
+	return string(std::to_string(_dayinmonth) + "/" + std::to_string(_month) + "/" + std::to_string(_year));
 }
