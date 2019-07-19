@@ -11,9 +11,11 @@ public:
 	static void split(string original, char c, string* output, bool hasFinal = true);
 
 	static void sort(ListControl<NhanVien>* lc, AppContext* AC);
-	static void sort(ListControl<NhanVien>* lc, AppContext::SORT_DIRECTION SD, int(*comparisonFcn)(NhanVien*, NhanVien*));
 	static void pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext* AC);
+
 private:
+	static void sort(ListControl<NhanVien>* lc, AppContext::SORT_DIRECTION SD, int(*comparisonFcn)(NhanVien*, NhanVien*));
+	static void pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext::SORT_DIRECTION SD, int(*comparisonFcn)(NhanVien*, NhanVien*));
 	static int HOVATEN_Comparison(NhanVien* nv1, NhanVien* nv2);
 	static int CHUCVU_Comparison(NhanVien* nv1, NhanVien* nv2);
 	static int HSL_Comparison(NhanVien* nv1, NhanVien* nv2);
@@ -79,7 +81,6 @@ inline void Utils::sort(ListControl<NhanVien>* lc, AppContext* AC)
 		sort(lc, AC->getCurrentSortDirection(), NS_Comparison);
 		break;
 	default:
-		sort(lc, AC->getCurrentSortDirection(), HOVATEN_Comparison);
 		break;
 	}
 }
@@ -158,6 +159,27 @@ inline int Utils::NS_Comparison(NhanVien* nv1, NhanVien* nv2)
 
 inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext* AC)
 {
+	switch (AC->getCurrentSortType())
+	{
+	case AppContext::SORT_TYPE::HOVATEN:
+		pushToListWithCondition(lc, item, AC->getCurrentSortDirection(), HOVATEN_Comparison);
+		break;
+	case AppContext::SORT_TYPE::CHUCVU:
+		pushToListWithCondition(lc, item, AC->getCurrentSortDirection(), CHUCVU_Comparison);
+		break;
+	case AppContext::SORT_TYPE::HESOLUONG:
+		pushToListWithCondition(lc, item, AC->getCurrentSortDirection(), HSL_Comparison);
+		break;
+	case AppContext::SORT_TYPE::NGAYSINH:
+		pushToListWithCondition(lc, item, AC->getCurrentSortDirection(), NS_Comparison);
+		break;
+	default:
+		break;
+	}
+}
+
+inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWraper<NhanVien>* item, AppContext::SORT_DIRECTION SD, int(*comparisonFcn)(NhanVien*, NhanVien*))
+{
 	if (lc->count() == 0) {
 		lc->pushBack(item);
 	}
@@ -168,78 +190,17 @@ inline void Utils::pushToListWithCondition(ListControl<NhanVien>* lc, PointerWra
 		do
 		{
 			index++;
-			switch (AC->getCurrentSortType())
-			{
-			case AppContext::SORT_TYPE::HOVATEN:
-				if (AC->getCurrentSortDirection() == AppContext::SORT_DIRECTION::CAOTOITHAP) {
-					if (Utils::HOVATEN_Comparison(lc->current(), item->getData()) < 0) {
-						isFound = true;
-						break;
-					}
+			if (SD == AppContext::SORT_DIRECTION::CAOTOITHAP) {
+				if (comparisonFcn(lc->current(), item->getData()) < 0) {
+					isFound = true;
+					break;
 				}
-				else {
-					if (Utils::HOVATEN_Comparison(lc->current(), item->getData()) >= 0) {
-						isFound = true;
-						break;
-					}
+			}
+			else {
+				if (comparisonFcn(lc->current(), item->getData()) >= 0) {
+					isFound = true;
+					break;
 				}
-				break;
-			case AppContext::SORT_TYPE::CHUCVU:
-				if (AC->getCurrentSortDirection() == AppContext::SORT_DIRECTION::CAOTOITHAP) {
-					if (Utils::CHUCVU_Comparison(lc->current(), item->getData()) < 0) {
-						isFound = true;
-						break;
-					}
-				}
-				else {
-					if (Utils::CHUCVU_Comparison(lc->current(), item->getData()) >= 0) {
-						isFound = true;
-						break;
-					}
-				}
-				break;
-			case AppContext::SORT_TYPE::HESOLUONG:
-				if (AC->getCurrentSortDirection() == AppContext::SORT_DIRECTION::CAOTOITHAP) {
-					if (Utils::HSL_Comparison(lc->current(), item->getData()) < 0) {
-						isFound = true;
-						break;
-					}
-				}
-				else {
-					if (Utils::HSL_Comparison(lc->current(), item->getData()) >= 0) {
-						isFound = true;
-						break;
-					}
-				}
-				break;
-			case AppContext::SORT_TYPE::NGAYSINH:
-				if (AC->getCurrentSortDirection() == AppContext::SORT_DIRECTION::CAOTOITHAP) {
-					if (Utils::NS_Comparison(lc->current(), item->getData()) < 0) {
-						isFound = true;
-						break;
-					}
-				}
-				else {
-					if (Utils::NS_Comparison(lc->current(), item->getData()) >= 0) {
-						isFound = true;
-						break;
-					}
-				}
-				break;
-			default:
-				if (AC->getCurrentSortDirection() == AppContext::SORT_DIRECTION::CAOTOITHAP) {
-					if (Utils::HOVATEN_Comparison(lc->current(), item->getData()) < 0) {
-						isFound = true;
-						break;
-					}
-				}
-				else {
-					if (Utils::HOVATEN_Comparison(lc->current(), item->getData()) >= 0) {
-						isFound = true;
-						break;
-					}
-				}
-				break;
 			}
 		} while (lc->moveNext() && isFound == false);
 		if (index == lc->count() || isFound == false)
