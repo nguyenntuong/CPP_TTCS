@@ -195,5 +195,5 @@ int Date::compares(const Date* d)
 //10/11/1980
 string Date::to_string()
 {
-	return string(std::to_string(_dayinmonth) + "/" + std::to_string(_month) + "/" + std::to_string(_year));
+	return string((_dayinmonth >= 10 ? "" : "0") + std::to_string(_dayinmonth) + '/' + (_month >= 10 ? "" : "0") + std::to_string(_month) + '/' + std::to_string(_year));
 }
